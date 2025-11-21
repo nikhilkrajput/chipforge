@@ -51,7 +51,7 @@ build/
 *~
 .DS_Store
 
-# EDA specific
+# EDA specific (output files, not source code)
 *.vcd
 *.fst
 *.ghw
@@ -65,9 +65,9 @@ build/
 *.mcs
 *.prm
 work/
-simulation/
-synthesis_results/
-pnr_results/
+**/simulation_output/
+**/synthesis_results/
+**/pnr_results/
 
 # Build artifacts
 *.o
