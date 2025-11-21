@@ -1,0 +1,35 @@
+# ChipForge Base Image
+FROM rust:1.75 as builder
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /chipforge
+
+# Copy source
+COPY . .
+
+# Build ChipForge
+RUN cargo build --release --workspace
+
+# Runtime image
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y \
+    libssl3 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy binary
+COPY --from=builder /chipforge/target/release/chipforge /usr/local/bin/
+
+# Set entrypoint
+ENTRYPOINT ["chipforge"]
+CMD ["--help"]

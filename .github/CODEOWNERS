@@ -1,0 +1,22 @@
+# Code Owners
+
+# Global owners
+* @nikhilkrajput
+
+# Core synthesis engine
+/core/synthesis/ @synthesis-team
+
+# Simulation engine
+/core/simulation/ @simulation-team
+
+# RISC-V ecosystem
+/riscv/ @riscv-team
+
+# GUI
+/gui/ @gui-team
+
+# Documentation
+/docs/ @docs-team
+
+# CI/CD
+/.github/ @devops-team
