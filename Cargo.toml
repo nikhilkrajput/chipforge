@@ -75,6 +75,7 @@ ndarray = "0.15"
 hashbrown = "0.14"
 indexmap = "2.1"
 dashmap = "5.5"
+bitvec = "1.0"
 
 # Rayon for parallelism
 rayon = "1.8"
@@ -82,6 +83,7 @@ rayon = "1.8"
 # Testing
 proptest = "1.4"
 criterion = "0.5"
+tempfile = "3.8"
 
 [profile.release]
 opt-level = 3
