@@ -1,0 +1,121 @@
+# Rust
+/target
+**/*.rs.bk
+*.pdb
+Cargo.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+*.mo
+*.pot
+venv/
+ENV/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+build/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# EDA specific
+*.vcd
+*.fst
+*.ghw
+*.wlf
+*.log
+*.jou
+*.str
+*.xpr
+*.bit
+*.bin
+*.mcs
+*.prm
+work/
+simulation/
+synthesis_results/
+pnr_results/
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Temporary files
+*.tmp
+*.bak
+*.orig
+.*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation builds
+docs/_build/
+site/
+
+# Test outputs
+test_results/
+coverage/
+
+# Cloud credentials
+*.pem
+*.key
+secrets.toml
+.env
+.env.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# AI Models (large files)
+*.onnx
+*.h5
+*.pb
+*.pth
+*.pt
+
+# Simulation waveforms (can be large)
+*.vcd
+*.fsdb
+*.shm/
+*.vpd

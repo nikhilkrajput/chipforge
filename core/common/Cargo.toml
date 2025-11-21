@@ -1,0 +1,33 @@
+[package]
+name = "chipforge-common"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+# Error handling
+anyhow.workspace = true
+thiserror.workspace = true
+
+# Serialization
+serde.workspace = true
+serde_json.workspace = true
+
+# Logging
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+# Graph algorithms
+petgraph.workspace = true
+
+# Data structures
+hashbrown.workspace = true
+indexmap.workspace = true
+
+# Parallelism
+rayon.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

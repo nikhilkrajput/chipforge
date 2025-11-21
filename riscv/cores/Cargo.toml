@@ -1,0 +1,12 @@
+[package]
+name = "chipforge-riscv-cores"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+chipforge-common = { path = "../../core/common" }
+anyhow.workspace = true
+tracing.workspace = true
