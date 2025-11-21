@@ -3,6 +3,7 @@
 //! Implements 4-state logic (0, 1, X, Z) as used in Verilog/SystemVerilog
 
 use std::fmt;
+use std::ops::Not;
 
 /// Single bit value (4-state logic)
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -69,8 +70,13 @@ impl BitValue {
         }
     }
 
-    /// Logical NOT
-    pub fn not(self) -> Self {
+}
+
+/// Implement the Not trait for BitValue
+impl Not for BitValue {
+    type Output = Self;
+
+    fn not(self) -> Self::Output {
         use BitValue::*;
         match self {
             Zero => One,
@@ -200,7 +206,7 @@ impl LogicValue {
     /// Bitwise NOT
     pub fn not(&self) -> Self {
         Self {
-            bits: self.bits.iter().map(|b| b.not()).collect(),
+            bits: self.bits.iter().map(|b| !*b).collect(),
         }
     }
 
@@ -310,7 +316,7 @@ mod tests {
         assert_eq!(BitValue::One.and(BitValue::One), BitValue::One);
         assert_eq!(BitValue::Zero.or(BitValue::One), BitValue::One);
         assert_eq!(BitValue::One.xor(BitValue::One), BitValue::Zero);
-        assert_eq!(BitValue::Zero.not(), BitValue::One);
+        assert_eq!(!BitValue::Zero, BitValue::One);
     }
 
     #[test]

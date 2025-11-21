@@ -42,11 +42,13 @@ pub mod algorithms {
         algo::is_cyclic_directed(graph)
     }
 
-    /// Topological sort (returns None if graph has cycles)
+    /// Topological sort (returns error if graph has cycles)
     pub fn topological_sort<N, E>(
         graph: &DirectedGraph<N, E>,
-    ) -> Result<Vec<NodeIndex>, ()> {
-        algo::toposort(graph, None).map_err(|_| ())
+    ) -> Result<Vec<NodeIndex>, crate::Error> {
+        algo::toposort(graph, None).map_err(|_| {
+            crate::Error::InvalidOperation("Graph contains cycles - cannot perform topological sort".to_string())
+        })
     }
 }
 

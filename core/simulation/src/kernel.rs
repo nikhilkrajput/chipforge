@@ -61,7 +61,7 @@ impl SimulationKernel {
     }
 
     /// Schedule an event
-    pub fn schedule_event(&mut self, time: SimTime, event: Event) {
+    pub fn schedule_event(&mut self, _time: SimTime, event: Event) {
         self.event_queue.schedule(event);
     }
 
@@ -71,7 +71,7 @@ impl SimulationKernel {
     }
 
     /// Set net value (immediately, schedules events for sensitive processes)
-    pub fn set_net_value(&mut self, id: NetId, value: Value, current_time: SimTime) -> Result<()> {
+    pub fn set_net_value(&mut self, id: NetId, value: Value, _current_time: SimTime) -> Result<()> {
         if let Some(old_value) = self.nets.get_value(id).cloned() {
             // Only process if value changed
             if self.nets.set_value(id, value) {
