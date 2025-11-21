@@ -1,0 +1,22 @@
+[package]
+name = "chipforge-simulation-examples"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chipforge-common = { path = "../../core/common" }
+chipforge-simulation = { path = "../../core/simulation" }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+[[bin]]
+name = "dff"
+path = "dff.rs"
+
+[[bin]]
+name = "counter"
+path = "counter.rs"
+
+[[bin]]
+name = "alu"
+path = "alu.rs"

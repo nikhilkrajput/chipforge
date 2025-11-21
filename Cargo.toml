@@ -23,6 +23,7 @@ members = [
     "ai/inference",
     "plugins/api",
     "cli",
+    "examples/simulation",
 ]
 
 [workspace.package]
