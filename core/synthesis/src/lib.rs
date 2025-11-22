@@ -3,6 +3,7 @@
 //! This crate implements the synthesis pipeline: parsing, elaboration,
 //! optimization, and technology mapping.
 
+pub mod elaboration;
 pub mod frontend;
 pub mod ir;
 pub mod optimization;
@@ -70,13 +71,31 @@ impl SynthesisEngine {
         Ok(design)
     }
 
-    fn parse_file(&self, _content: &str, _design: &mut ir::Design) -> Result<()> {
-        // TODO: Implement parsing
+    fn parse_file(&self, content: &str, design: &mut ir::Design) -> Result<()> {
+        // Determine file type and parse
+        let lexer = frontend::verilog::lexer::Lexer::new(content, "input.v");
+        let mut parser = frontend::verilog::parser::Parser::new(lexer)?;
+        let ast = parser.parse_source_file()?;
+
+        // Elaborate AST to IR
+        let mut elaborator = elaboration::Elaborator::new();
+        let elaborated = elaborator.elaborate(&ast)?;
+
+        // Merge into main design
+        for (name, module) in elaborated.modules {
+            design.modules.insert(name, module);
+        }
+
         Ok(())
     }
 
-    fn elaborate(&self, _design: &mut ir::Design) -> Result<()> {
-        // TODO: Implement elaboration
+    fn elaborate(&self, design: &mut ir::Design) -> Result<()> {
+        // Additional elaboration steps
+        // - Resolve module instances
+        // - Elaborate parameters
+        // - Build hierarchy
+        // - Type checking
+        tracing::debug!("Elaboration: {} modules", design.modules.len());
         Ok(())
     }
 
