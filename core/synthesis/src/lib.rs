@@ -99,8 +99,13 @@ impl SynthesisEngine {
         Ok(())
     }
 
-    fn optimize(&self, _design: &mut ir::Design) -> Result<()> {
-        // TODO: Implement optimization
+    fn optimize(&self, design: &mut ir::Design) -> Result<()> {
+        let mut manager = optimization::OptimizationManager::standard_pipeline();
+        let stats = manager.run(design)?;
+        tracing::info!(
+            "Optimization complete: {} total changes across all passes",
+            stats.changes
+        );
         Ok(())
     }
 }
