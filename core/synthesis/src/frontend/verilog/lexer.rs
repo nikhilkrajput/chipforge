@@ -250,9 +250,9 @@ impl<'a> Lexer<'a> {
             }
             '=' => {
                 self.advance()?;
-                if self.peek_char()? == Some('=') {
+                if !self.is_eof() && self.current_char()? == '=' {
                     self.advance()?;
-                    if self.peek_char()? == Some('=') {
+                    if !self.is_eof() && self.current_char()? == '=' {
                         self.advance()?;
                         Ok(Token::EqualEqualEqual)
                     } else {
@@ -264,9 +264,9 @@ impl<'a> Lexer<'a> {
             }
             '!' => {
                 self.advance()?;
-                if self.peek_char()? == Some('=') {
+                if !self.is_eof() && self.current_char()? == '=' {
                     self.advance()?;
-                    if self.peek_char()? == Some('=') {
+                    if !self.is_eof() && self.current_char()? == '=' {
                         self.advance()?;
                         Ok(Token::NotEqualEqual)
                     } else {
@@ -278,12 +278,12 @@ impl<'a> Lexer<'a> {
             }
             '<' => {
                 self.advance()?;
-                if self.peek_char()? == Some('=') {
+                if !self.is_eof() && self.current_char()? == '=' {
                     self.advance()?;
                     Ok(Token::LessEqual)
-                } else if self.peek_char()? == Some('<') {
+                } else if !self.is_eof() && self.current_char()? == '<' {
                     self.advance()?;
-                    if self.peek_char()? == Some('<') {
+                    if !self.is_eof() && self.current_char()? == '<' {
                         self.advance()?;
                         Ok(Token::ArithShiftLeft)
                     } else {
@@ -295,12 +295,12 @@ impl<'a> Lexer<'a> {
             }
             '>' => {
                 self.advance()?;
-                if self.peek_char()? == Some('=') {
+                if !self.is_eof() && self.current_char()? == '=' {
                     self.advance()?;
                     Ok(Token::GreaterEqual)
-                } else if self.peek_char()? == Some('>') {
+                } else if !self.is_eof() && self.current_char()? == '>' {
                     self.advance()?;
-                    if self.peek_char()? == Some('>') {
+                    if !self.is_eof() && self.current_char()? == '>' {
                         self.advance()?;
                         Ok(Token::ArithShiftRight)
                     } else {
@@ -312,7 +312,7 @@ impl<'a> Lexer<'a> {
             }
             '&' => {
                 self.advance()?;
-                if self.peek_char()? == Some('&') {
+                if !self.is_eof() && self.current_char()? == '&' {
                     self.advance()?;
                     Ok(Token::LogicalAnd)
                 } else {
@@ -321,7 +321,7 @@ impl<'a> Lexer<'a> {
             }
             '|' => {
                 self.advance()?;
-                if self.peek_char()? == Some('|') {
+                if !self.is_eof() && self.current_char()? == '|' {
                     self.advance()?;
                     Ok(Token::LogicalOr)
                 } else {
@@ -330,7 +330,7 @@ impl<'a> Lexer<'a> {
             }
             '^' => {
                 self.advance()?;
-                if self.peek_char()? == Some('~') {
+                if !self.is_eof() && self.current_char()? == '~' {
                     self.advance()?;
                     Ok(Token::BitwiseXnor)
                 } else {
@@ -339,20 +339,24 @@ impl<'a> Lexer<'a> {
             }
             '~' => {
                 self.advance()?;
-                match self.peek_char()? {
-                    Some('&') => {
-                        self.advance()?;
-                        Ok(Token::BitwiseNand)
+                if !self.is_eof() {
+                    match self.current_char()? {
+                        '&' => {
+                            self.advance()?;
+                            Ok(Token::BitwiseNand)
+                        }
+                        '|' => {
+                            self.advance()?;
+                            Ok(Token::BitwiseNor)
+                        }
+                        '^' => {
+                            self.advance()?;
+                            Ok(Token::BitwiseXnor)
+                        }
+                        _ => Ok(Token::BitwiseNot)
                     }
-                    Some('|') => {
-                        self.advance()?;
-                        Ok(Token::BitwiseNor)
-                    }
-                    Some('^') => {
-                        self.advance()?;
-                        Ok(Token::BitwiseXnor)
-                    }
-                    _ => Ok(Token::BitwiseNot)
+                } else {
+                    Ok(Token::BitwiseNot)
                 }
             }
 

@@ -583,36 +583,50 @@ impl<'a> Parser<'a> {
             if self.current_token == Token::Star {
                 self.advance()?;
                 SensitivityList::Star
-            } else {
-                self.expect(Token::LParen)?;
-                let mut items = Vec::new();
+            } else if self.current_token == Token::LParen {
+                self.advance()?;
 
-                loop {
-                    let edge = match &self.current_token {
-                        Token::Posedge => {
+                // Check for @(*)
+                if self.current_token == Token::Star {
+                    self.advance()?;
+                    self.expect(Token::RParen)?;
+                    SensitivityList::Star
+                } else {
+                    // Parse regular sensitivity list
+                    let mut items = Vec::new();
+
+                    loop {
+                        let edge = match &self.current_token {
+                            Token::Posedge => {
+                                self.advance()?;
+                                Some(Edge::Posedge)
+                            }
+                            Token::Negedge => {
+                                self.advance()?;
+                                Some(Edge::Negedge)
+                            }
+                            _ => None,
+                        };
+
+                        let expression = self.parse_expression()?;
+
+                        items.push(SensitivityItem { edge, expression });
+
+                        if self.current_token == Token::Comma || self.current_token == Token::Or {
                             self.advance()?;
-                            Some(Edge::Posedge)
+                        } else {
+                            break;
                         }
-                        Token::Negedge => {
-                            self.advance()?;
-                            Some(Edge::Negedge)
-                        }
-                        _ => None,
-                    };
-
-                    let expression = self.parse_expression()?;
-
-                    items.push(SensitivityItem { edge, expression });
-
-                    if self.current_token == Token::Comma || self.current_token == Token::Or {
-                        self.advance()?;
-                    } else {
-                        break;
                     }
-                }
 
-                self.expect(Token::RParen)?;
-                SensitivityList::List(items)
+                    self.expect(Token::RParen)?;
+                    SensitivityList::List(items)
+                }
+            } else {
+                return Err(Error::parse(
+                    "Expected '(' or '*' after '@'".to_string(),
+                    self.location(),
+                ));
             }
         } else {
             SensitivityList::Star
