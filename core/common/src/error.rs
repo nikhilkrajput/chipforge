@@ -75,4 +75,9 @@ impl Error {
     pub fn internal(message: impl Into<String>) -> Self {
         Error::Internal(message.into())
     }
+
+    /// Create an unsupported operation error
+    pub fn unsupported(message: impl Into<String>) -> Self {
+        Error::InvalidOperation(format!("Unsupported: {}", message.into()))
+    }
 }
